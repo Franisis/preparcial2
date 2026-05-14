@@ -3,12 +3,14 @@ import { TravelPlansController } from './travel-plans.controller';
 import { TravelPlansService } from './travel-plans.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TravelPlan } from './entities/travel-plans.entity';
+import { CountriesModule } from 'src/countries/countries.module';
 
 @Module({
-  controllers: [TravelPlansController],
   providers: [TravelPlansService],
+  controllers: [TravelPlansController],
   imports: [
     TypeOrmModule.forFeature([TravelPlan]),
+    CountriesModule,
   ],
 })
 export class TravelPlansModule {}

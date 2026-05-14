@@ -4,29 +4,49 @@ import {
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Post,
   } from '@nestjs/common';
+  
+  import { TravelPlansService }
+    from './travel-plans.service';
+  
+  import { CreateTravelPlanDto }
+    from './dto/create-travel-plan.dto';
   
   @Controller('travel-plans')
   export class TravelPlansController {
   
+    constructor(
+      private readonly travelPlansService:
+        TravelPlansService,
+    ) {}
+  
     @Post()
-    create(@Body() dto: any) {
-      return dto;
+    create(
+      @Body() dto: CreateTravelPlanDto,
+    ) {
+      return this.travelPlansService.create(dto);
     }
   
     @Get()
     findAll() {
-      return [];
+      return this.travelPlansService.findAll();
     }
   
     @Get(':id')
-    findOne(@Param('id') id: string) {
-      return id;
+    findOne(
+      @Param('id', ParseIntPipe)
+      id: number,
+    ) {
+      return this.travelPlansService.findOne(id);
     }
   
     @Delete(':id')
-    remove(@Param('id') id: string) {
-      return id;
+    remove(
+      @Param('id', ParseIntPipe)
+      id: number,
+    ) {
+      return this.travelPlansService.remove(id);
     }
   }
