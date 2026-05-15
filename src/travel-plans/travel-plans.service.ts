@@ -99,6 +99,7 @@ export class TravelPlansService {
   async findOne(id: number) {
     return this.travelPlanRepository.findOne({
       where: { id },
+      relations: ['expenses'],
     });
   }
 

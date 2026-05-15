@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Expense } from 'src/expenses/entities/expenses.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
     Column,
     Entity,
@@ -27,7 +28,11 @@ import {
     destinationCountryCode: string;
 
 
-    //@OneToMany(type => Expense, expense => expense.travelPlan)
-    @Exclude()
+    @OneToMany(type => Expense, expense => expense.travelPlan)
     expenses: Expense[];
+
+    @Exclude()
+    user: User;
+
+    
   }
