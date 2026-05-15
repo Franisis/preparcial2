@@ -1,6 +1,10 @@
+import { Exclude } from 'class-transformer';
+import { Expense } from 'src/expenses/entities/expenses.entity';
 import {
     Column,
     Entity,
+    JoinColumn,
+    OneToMany,
     PrimaryGeneratedColumn,
   } from 'typeorm';
   
@@ -21,4 +25,9 @@ import {
   
     @Column()
     destinationCountryCode: string;
+
+
+    //@OneToMany(type => Expense, expense => expense.travelPlan)
+    @Exclude()
+    expenses: Expense[];
   }
