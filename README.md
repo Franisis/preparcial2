@@ -96,3 +96,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+#Preparcial 
+<p>La inserción individual de gastos se implementó utilizando relaciones entre entidades en TypeORM sobre una base de datos SQL. En lugar de reemplazar completamente el arreglo de gastos de un plan de viaje, el sistema crea una nueva entidad `Expense`, la asocia al objeto `TravelPlan` mediante una relación `ManyToOne`, y posteriormente la persiste usando el repositorio correspondiente con `save()`. Gracias a esto, cada gasto se almacena como un registro independiente relacionado por llave foránea al plan de viaje, permitiendo agregar elementos al arreglo lógico de gastos sin modificar manualmente estructuras JSON completas ni sobrescribir datos existentes.
+</p>
