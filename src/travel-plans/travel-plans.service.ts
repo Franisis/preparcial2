@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -14,6 +14,7 @@ import { CountriesService }
 import { TravelPlan } from './entities/travel-plans.entity';
 import { createTravelExpensesDto } from './dto/create-travel-expenses.dto';
 import { Expense } from 'src/expenses/entities/expenses.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class TravelPlansService {
@@ -31,12 +32,11 @@ export class TravelPlansService {
     private readonly countriesService:
       CountriesService,
 
+    
+    private readonly userService: UsersService
+
 
   ) {}
-
-
-
-
 
   async create(dto: CreateTravelPlanDto) {
 
@@ -50,9 +50,25 @@ export class TravelPlansService {
     const plan =
       this.travelPlanRepository.create(dto);
 
-    return await this.travelPlanRepository.save(
-      plan,
-    );
+
+    if (dto?.userId)
+    {
+        //will find user 
+        const user = await this.userService.findOne(dto.userId);
+        if (!user)
+          {
+            throw new NotFoundException(`User with id ${dto.userId} not found`);
+          }
+          else {
+            plan.user = user;
+            return await this.travelPlanRepository.save(
+              plan,
+            );
+          }
+    }
+    else {
+      throw new BadRequestException('User id is required');
+    }
   }
 
   async addExpenses(id: number, dto: createTravelExpensesDto) {

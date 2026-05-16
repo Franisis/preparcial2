@@ -1,6 +1,7 @@
 import {
     IsDateString,
     IsNotEmpty,
+    IsNumber,
     IsString,
     Length,
   } from 'class-validator';
@@ -20,4 +21,7 @@ import {
     @IsString()
     @Length(3, 3)
     destinationCountryCode: string;
+
+    @IsNumber()
+    userId:number;
   }

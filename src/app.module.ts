@@ -1,10 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod, } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CountriesModule } from './countries/countries.module';
 import { TravelPlansModule } from './travel-plans/travel-plans.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { UsersModule } from './users/users.module';
+
+import { AuditMiddleware } from './common/middleware/audit.middleware';
 
 @Module({
   imports: [
@@ -46,4 +51,14 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuditMiddleware)
+      .forRoutes(
+        'travel-plans',
+        'users',
+      );
+  }
+  
+}
